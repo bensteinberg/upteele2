@@ -40,7 +40,34 @@ var App = React.createClass({
 		<List buses={directions[0].buses} />
 		<Para content={directions[1].title} />
 		<List buses={directions[1].buses} />
+		<Clock />
           </div>
+	);
+    }
+});
+
+var Clock = React.createClass({
+    getInitialState: function() {
+    	return { 
+	    timestamp: new Date().toString()
+	};
+    },
+    componentDidMount: function() {
+	var self = this;
+	var checkTime = function() {
+	    var timestamp = new Date().toString()
+	    if (self.state) {
+		self.setState({ 
+		    timestamp: timestamp
+		});
+	    }
+	setTimeout(checkTime, 11000);
+	};
+	checkTime();
+    },
+    render: function() {
+	return (
+	    <div>{this.state.timestamp}</div>
 	);
     }
 });
