@@ -9,7 +9,7 @@ var Heading = React.createClass({
 var App = React.createClass({
     render: function() {
 	directions = [{
-	    title: "Inbound to Davis from Teele",
+	    title: "Downhill to Davis from Teele",
 	    buses: [
 		{
 		    stopId: '2577',
@@ -21,7 +21,7 @@ var App = React.createClass({
 		}
 	    ]
 	},{
-	    title: "Outbound to Teele from Davis",
+	    title: "Uphill to Teele from Davis",
 	    buses: [
 		{
 		    stopId: '2630',
