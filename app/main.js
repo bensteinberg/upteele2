@@ -1,3 +1,6 @@
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 var Heading = React.createClass({
     render: function () {
 	return (
@@ -6,9 +9,9 @@ var Heading = React.createClass({
     }
 });
 
-var App = React.createClass({
+var Content = React.createClass({
     render: function() {
-	directions = [{
+	var directions = [{
 	    title: "Downhill to Davis from Teele",
 	    buses: [
 		{
@@ -92,34 +95,38 @@ var List = React.createClass({
 	var getData = function() {
 	    var nb_parse = function(data) {
 		var result = [];
-		var parsed = $.parseXML(data),
-		$xml = $(parsed),
-		$predictions = $xml.find("prediction")
-		$parent = $xml.find("predictions");
-		$predictions.each(function(prediction) {
-		    $prediction = $($predictions[prediction]);
-		    var seconds = $prediction.attr("seconds");
-		    var bus = $parent.attr("routeTag");
-		    result.push({ 'bus': bus, 'time': seconds });
-		});
-		return result;
+                var dp = new DOMParser();
+                var parsed = dp.parseFromString( data , "application/xml" );
+                var predictions = parsed.getElementsByTagName("prediction")
+                var parent = parsed.getElementsByTagName("predictions");
+                for (var prediction in predictions) {
+                    try {
+                        var seconds = predictions[prediction].attributes["seconds"].value;
+                        var bus = parent[0].attributes["routeTag"].value;
+		        result.push({ 'bus': bus, 'time': seconds });
+                    } catch (err) {
+                        ;
+                    }
+		};
+	        return result;
 	    };
 	    var url = 'http://webservices.nextbus.com/service/publicXMLFeed';
 	    var tuples = self.props.buses;
 	    var counter = tuples.length;
 	    var xmldata = [];
-	    $.each(tuples, function(pair) {
-		var response = $.ajax({
-		    url: url, 
-		    data: {
-			command: 'predictions', 
-			a: 'mbta',
-			stopId: tuples[pair]['stopId'],
-			routeTag: tuples[pair]['routeTag']
-		    },
-		    async: false,
-		});
-		xmldata.push(response.responseText);
+            for (var pair in tuples) {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            xmldata.push(xhr.responseText);
+                        }
+                    }
+                }
+                var paramstring = '?command=predictions&a=mbta&stopId=' + tuples[pair]["stopId"] + '&routeTag=' + tuples[pair]["routeTag"];
+                
+                xhr.open('GET', url + paramstring, false);
+                xhr.send();
 		--counter;
 		if (counter == 0) {
 		    var parsed_xml = [];
@@ -139,7 +146,7 @@ var List = React.createClass({
 			return sorted;
 		    }
 		}
-	    });
+	    }
 	    setTimeout(getData, 11000);
 	};
 	getData();
@@ -154,9 +161,4 @@ var List = React.createClass({
     }
 });
 
-
-React.render(
-    React.createElement(App, null),
-    document.getElementById('content')
-);
-
+ReactDOM.render(<Content />, document.getElementById('content'));
