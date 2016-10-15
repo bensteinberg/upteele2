@@ -15,15 +15,15 @@ var Content = React.createClass({
     render: function() {
         var rows = [];
         for (var i = 0; i < directions.length ; i++) {
-            rows.push(<Para content={directions[i].title} />);
-            rows.push(<List buses={directions[i].buses} />);
+            rows.push(<Para key={"p" + i} content={directions[i].title} />);
+            rows.push(<List key={"l" + i} buses={directions[i].buses} />);
         }
 
 	return (
-	  <div id="container">
-		<Heading title="Up Teele" />
+	  <div>
+		<Heading key="heading" title="Up Teele" />
                 {rows}
-		<Clock />
+		<Clock key="clock" />
           </div>
 	);
     }
@@ -141,4 +141,4 @@ var List = React.createClass({
     }
 });
 
-ReactDOM.render(<Content />, document.getElementById('content'));
+ReactDOM.render(<Content key="content" />, document.getElementById('content'));
