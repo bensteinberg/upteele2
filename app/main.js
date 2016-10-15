@@ -1,6 +1,8 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
+var directions = require("json!./config.json");
+
 var Heading = React.createClass({
     render: function () {
 	return (
@@ -11,31 +13,6 @@ var Heading = React.createClass({
 
 var Content = React.createClass({
     render: function() {
-	var directions = [{
-	    title: "Downhill to Davis from Teele",
-	    buses: [
-		{
-		    stopId: '2577',
-		    routeTag: '88'
-		},
-		{
-		    stopId: '2577',
-		    routeTag: '87'
-		}
-	    ]
-	},{
-	    title: "Uphill to Teele from Davis",
-	    buses: [
-		{
-		    stopId: '2630',
-		    routeTag: '88'
-		},
-		{
-		    stopId: '2630',
-		    routeTag: '87'
-		}
-	    ]
-	}];
 	return (
 	  <div id="container">
 		<Heading title="Up Teele" />
