@@ -13,13 +13,16 @@ var Heading = React.createClass({
 
 var Content = React.createClass({
     render: function() {
+        var rows = [];
+        for (var i = 0; i < directions.length ; i++) {
+            rows.push(<Para content={directions[i].title} />);
+            rows.push(<List buses={directions[i].buses} />);
+        }
+
 	return (
 	  <div id="container">
 		<Heading title="Up Teele" />
-		<Para content={directions[0].title} />
-		<List buses={directions[0].buses} />
-		<Para content={directions[1].title} />
-		<List buses={directions[1].buses} />
+                {rows}
 		<Clock />
           </div>
 	);
