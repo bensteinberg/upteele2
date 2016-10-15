@@ -5,4 +5,4 @@ This is a simple bus arrival predictor. It uses the [nextbus Public XML Feed](ht
 
 Clone this repo, run `npm install -g webpack`, `npm install`, and then `webpack` to build.
 
-Specify routes and stops in `app/config.json`.
+Specify heading, routes, and stops in `app/config.json`.

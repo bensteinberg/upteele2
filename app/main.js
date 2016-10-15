@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var directions = require("json!./config.json");
+var cfg = require("json!./config.json");
 
 var Heading = React.createClass({
     render: function () {
@@ -14,14 +14,14 @@ var Heading = React.createClass({
 var Content = React.createClass({
     render: function() {
         var rows = [];
-        for (var i = 0; i < directions.length ; i++) {
-            rows.push(<Para key={"p" + i} content={directions[i].title} />);
-            rows.push(<List key={"l" + i} buses={directions[i].buses} />);
+        for (var i = 0; i < cfg.directions.length ; i++) {
+            rows.push(<Para key={"p" + i} content={cfg.directions[i].title} />);
+            rows.push(<List key={"l" + i} buses={cfg.directions[i].buses} />);
         }
 
 	return (
 	  <div>
-		<Heading key="heading" title="Up Teele" />
+		<Heading key="heading" title={cfg.heading} />
                 {rows}
 		<Clock key="clock" />
           </div>
